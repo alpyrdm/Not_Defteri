@@ -1,0 +1,372 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700&display=swap');
+
+/* Logbook Global Floating Post-It Notes Styles for Content Scripts */
+
+.global-floating-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 999999; /* Higher z-index to stay on top of standard site elements */
+}
+
+/* Zone at bottom right for stacking minimized notes. Passes pointer-events. */
+.postit-minimized-zone {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 8px;
+    pointer-events: none;
+    z-index: 1000000;
+}
+
+/* Add Note FAB button */
+.global-add-note-btn {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: #3b82f6;
+    color: white;
+    border: none;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000000;
+    pointer-events: auto;
+    transition: transform 0.2s, background-color 0.2s;
+    font-family: 'Plus Jakarta Sans', 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+.global-add-note-btn:hover {
+    background-color: #2563eb;
+    transform: scale(1.08);
+}
+.dark-theme .global-add-note-btn,
+.global-add-note-btn.dark-theme {
+    background: #60a5fa;
+}
+.dark-theme .global-add-note-btn:hover,
+.global-add-note-btn.dark-theme:hover {
+    background: #3b82f6;
+}
+
+/* Floating Post-It styling */
+.floating-postit {
+    pointer-events: auto;
+    position: fixed; /* Use fixed positioning on webpages to stay in viewport */
+    background: #fef08a;
+    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.25), 0 8px 10px -6px rgba(0,0,0,0.15);
+    border-radius: 4px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    height: 250px;
+    min-width: 180px;
+    min-height: 180px;
+    border: 1px solid #fef08a;
+    transition: transform 0.2s ease, width 0.2s, height 0.2s, left 0.3s ease, top 0.3s ease, opacity 0.3s ease;
+    resize: both;
+    overflow: hidden;
+    box-sizing: border-box;
+    font-family: 'Plus Jakarta Sans', 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* Dark mode modifier */
+.dark-theme .floating-postit,
+.floating-postit.dark-theme {
+    background: #1e293b;
+    border-color: #334155;
+    color: #f8fafc;
+}
+
+/* Header bar */
+.postit-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: move;
+    border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
+    padding-bottom: 6px;
+    margin-bottom: 8px;
+    user-select: none;
+    box-sizing: border-box;
+}
+.dark-theme .postit-header,
+.floating-postit.dark-theme .postit-header {
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+.postit-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: rgba(0, 0, 0, 0.5);
+    text-transform: uppercase;
+    margin: 0;
+    padding: 0;
+}
+.dark-theme .postit-title,
+.floating-postit.dark-theme .postit-title {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* Header buttons group */
+.postit-controls {
+    display: flex;
+    gap: 4px;
+}
+.postit-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 12px;
+    padding: 2px 4px;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    color: inherit;
+    box-sizing: border-box;
+}
+.postit-btn:hover {
+    background-color: rgba(0,0,0,0.08);
+}
+.dark-theme .postit-btn:hover,
+.floating-postit.dark-theme .postit-btn:hover {
+    background-color: rgba(255,255,255,0.08);
+}
+.postit-btn.btn-close:hover {
+    background-color: #ef4444;
+    color: white;
+}
+
+/* Body Text Area */
+.postit-body {
+    flex-grow: 1;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    resize: none;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 14px;
+    line-height: 1.4;
+    color: #1e293b;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+.dark-theme .postit-body,
+.floating-postit.dark-theme .postit-body {
+    color: #f8fafc;
+}
+
+/* Image styling inside note body */
+.postit-body-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+.postit-textarea {
+    width: 100%;
+    flex-grow: 1;
+    background: transparent;
+    border: none !important;
+    outline: none !important;
+    resize: none !important;
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    min-height: 50px;
+    padding: 0 !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+}
+.postit-img {
+    max-width: 100%;
+    max-height: 120px;
+    object-fit: contain;
+    border-radius: 4px;
+    align-self: center;
+    display: block;
+    margin-top: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Image dropzone highlight ring */
+.postit-dropzone {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 2px dashed transparent;
+    border-radius: 4px;
+    pointer-events: none;
+    transition: border-color 0.2s, background-color 0.2s;
+    box-sizing: border-box;
+}
+.floating-postit.drag-hover .postit-dropzone {
+    border-color: #3b82f6;
+    background-color: rgba(59, 130, 246, 0.08);
+}
+.dark-theme .floating-postit.drag-hover .postit-dropzone,
+.floating-postit.dark-theme.drag-hover .postit-dropzone {
+    border-color: #60a5fa;
+    background-color: rgba(96, 165, 250, 0.08);
+}
+
+/* Minimized State */
+.postit-minimized {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    width: 160px !important;
+    height: 36px !important;
+    min-width: 160px !important;
+    min-height: 36px !important;
+    resize: none !important;
+    padding: 6px 10px !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.15), 0 2px 4px -1px rgba(0, 0, 0, 0.1) !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    cursor: pointer;
+    pointer-events: auto;
+    box-sizing: border-box !important;
+}
+.postit-minimized .postit-header {
+    border-bottom: none !important;
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+    flex-grow: 1 !important;
+    cursor: pointer !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+.postit-minimized .postit-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 90px;
+}
+.postit-minimized .postit-body,
+.postit-minimized .postit-dropzone {
+    display: none !important;
+}
+
+/* Mission Control State */
+.mission-control-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 999998;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    pointer-events: auto;
+}
+.mission-control-active .mission-control-overlay {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Thumbnail layout in Mission Control */
+.floating-postit.postit-thumbnail {
+    width: 160px !important;
+    height: 160px !important;
+    min-width: 160px !important;
+    min-height: 160px !important;
+    resize: none !important;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3) !important;
+    cursor: pointer;
+    transform: scale(1) !important;
+    z-index: 1000001 !important;
+}
+.floating-postit.postit-thumbnail:hover {
+    transform: scale(1.05) !important;
+}
+.floating-postit.postit-thumbnail .postit-controls {
+    display: none !important;
+}
+.floating-postit.postit-thumbnail .postit-textarea {
+    pointer-events: none !important;
+    font-size: 11px !important;
+    overflow: hidden !important;
+}
+.floating-postit.postit-thumbnail .postit-img {
+    max-height: 60px !important;
+}
+.floating-postit.postit-thumbnail .postit-body {
+    display: flex !important; /* Force display even if it was minimized */
+}
+
+/* Toast container style */
+#global-toast-container {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* POST-IT CLICKABLE LINK & BADGE STYLES */
+.postit-link, .postit-textarea a, .postit-body a {
+    color: #2563eb !important;
+    text-decoration: underline !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    word-break: break-all !important;
+}
+.dark-theme .postit-link, .dark-theme .postit-textarea a, .dark-theme .postit-body a {
+    color: #60a5fa !important;
+}
+.postit-link-badge {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    background: rgba(59, 130, 246, 0.12) !important;
+    color: #1d4ed8 !important;
+    padding: 3px 8px !important;
+    border-radius: 6px !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    text-decoration: none !important;
+    margin-top: 4px !important;
+    margin-bottom: 4px !important;
+    border: 1px solid rgba(59, 130, 246, 0.25) !important;
+    cursor: pointer !important;
+    transition: background 0.2s, transform 0.1s !important;
+    word-break: break-word !important;
+}
+.postit-link-badge:hover {
+    background: rgba(59, 130, 246, 0.25) !important;
+    transform: translateY(-1px) !important;
+}
+.dark-theme .postit-link-badge {
+    background: rgba(96, 165, 250, 0.15) !important;
+    color: #93c5fd !important;
+    border-color: rgba(96, 165, 250, 0.3) !important;
+}

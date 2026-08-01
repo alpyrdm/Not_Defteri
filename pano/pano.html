@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logbook - Pano</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../shared/style.css">
+    <link rel="icon" type="image/png" href="icons/icon48.png">
+</head>
+<body class="page-pano">
+
+    <div class="nav-bar">
+        <a href="../index.html" class="nav-brand">Logbook</a>
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <div class="tab-buttons">
+                <a id="btn-pano-sekme" class="tab-btn active" href="../pano/pano.html">Pano</a>
+                <a id="btn-todo-sekme" class="tab-btn" href="../todo/todo.html">Yapılacaklar</a>
+                <a id="btn-ajanda-sekme" class="tab-btn" href="../ajanda/ajanda.html">Ajanda / Takvim</a>
+                <a id="btn-defter-sekme" class="tab-btn" href="../defter/defter.html">Defter</a>
+                <div class="nav-dropdown-container">
+                    <a id="btn-finans-sekme" class="tab-btn" href="../finans/finans.html">Finans & Zaman Analizi</a>
+                    <div class="nav-dropdown-content">
+                        <a href="../finans/finans.html#butce">💰 Bütçe & Harcamalar</a>
+                        <a href="../finans/finans.html#doviz">💱 Canlı Döviz Masası</a>
+                    </div>
+                </div>
+                <a id="btn-stickynote-sekme" class="tab-btn" href="../uzanti/desktop_note.html">Hızlı Not</a>
+            </div>
+            <button id="dark-mode-toggle" class="dark-mode-btn" title="Temayı Değiştir">🌙</button>
+        </div>
+    </div>
+
+    <div id="pano-sekme" class="tab-content active">
+        <div class="controls" style="display: flex; gap: 10px; margin-bottom: 20px; align-items: center; width: 100%;">
+            <button id="yeni-not-btn" style="margin: 0;">+ Yeni Post-it</button>
+            <button id="hizala-not-btn" style="background-color: #8b5cf6; color: white; border: none; padding: 12px 24px; font-size: 15px; font-weight: bold; border-radius: 8px; cursor: pointer; margin: 0;"> Notları Düzenle/Hizala</button>
+            
+            <div class="workspace-seci-grup" style="margin-left: auto; display: flex; gap: 8px;">
+                <select id="workspace-select" class="workspace-seci-select" title="Çalışma Alanı Seçin"></select>
+                <button id="workspace-ekle-btn" class="aksiyon-mini-btn yeşil-mod" style="margin: 0;">+ Alan Ekle</button>
+                <button id="workspace-sil-btn" class="aksiyon-mini-btn kırmızı-mod" style="margin: 0;">Alanı Sil</button>
+            </div>
+        </div>
+        <div id="pano">
+            <div id="pano-cop-kutusu" class="mini-cop-kutusu" title="Silinen Notları Kurtar">
+                🗑️ <span id="cop-sayac">0</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="../shared/common.js" data-main="pano.js"></script>
+</body>
+</html>

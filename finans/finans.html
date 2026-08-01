@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logbook - Finans ve Hesap Makinesi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../shared/style.css">
+    <link rel="icon" type="image/png" href="icons/icon48.png">
+</head>
+<body class="page-finans">
+
+    <div class="nav-bar">
+        <a href="../index.html" class="nav-brand">Logbook</a>
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <div class="tab-buttons">
+                <a id="btn-pano-sekme" class="tab-btn" href="../pano/pano.html">Pano</a>
+                <a id="btn-todo-sekme" class="tab-btn" href="../todo/todo.html">Yapılacaklar</a>
+                <a id="btn-ajanda-sekme" class="tab-btn" href="../ajanda/ajanda.html">Ajanda / Takvim</a>
+                <a id="btn-defter-sekme" class="tab-btn" href="../defter/defter.html">Defter</a>
+                <div class="nav-dropdown-container">
+                    <a id="btn-finans-sekme" class="tab-btn active" href="../finans/finans.html">Finans & Zaman Analizi</a>
+                    <div class="nav-dropdown-content">
+                        <a href="../finans/finans.html#butce">💰 Bütçe & Harcamalar</a>
+                        <a href="../finans/finans.html#doviz">💱 Canlı Döviz Masası</a>
+                    </div>
+                </div>
+            </div>
+            <button id="dark-mode-toggle" class="dark-mode-btn" title="Temayı Değiştir">🌙</button>
+        </div>
+    </div>
+
+    <div id="finans-sekme" class="tab-content active" style="max-width: 1100px; margin: 0 auto; padding: 30px 10px;">
+        
+        <div class="ajanda-alt-menu" style="margin-bottom: 25px;">
+            <button id="btn-finans-butce" class="alt-tab-btn">💰 Bütçe & Harcamalar</button>
+            <button id="btn-finans-doviz" class="alt-tab-btn">💱 Canlı Döviz Masası</button>
+        </div>
+
+        <!-- BÜTÇE VE HARCAMA PANELİ -->
+        <div id="finans-butce-alan" class="finans-wrapper">
+            <div class="finans-blok bütçe-alani">
+                <h3>Harcama Takip & Zaman Dağılımı</h3>
+                
+                <div class="harcama-formu">
+                    <input type="text" id="harcama-ad" placeholder="Harcama adı...">
+                    <input type="number" id="harcama-miktar" placeholder="Tutar">
+                    
+                    <select id="harcama-kur">
+                        <option value="TL">TL (₺)</option>
+                        <option value="PLN">PLN (zł)</option>
+                        <option value="EUR">EUR (€)</option>
+                        <option value="USD">USD ($)</option>
+                    </select>
+                    
+                    <!-- Dinamik Kategori Seçim & Otomatik Tamamlama Girişi -->
+                    <input type="text" id="harcama-kategori" list="kategori-listesi" placeholder="Kategori yazın veya seçin..." style="flex: 1.5; min-width: 150px;">
+                    <datalist id="kategori-listesi"></datalist>
+                    
+                    <!-- Bütçe Gösterim/Düzenleme Kutusu (Giriş yerindeki kalemlerin yanında) -->
+                    <div class="butce-header-kutu">
+                        <span class="butce-label-title">Aylık Bütçe:</span>
+                        <span id="analiz-ay-butce" style="font-weight: bold; color: #3b82f6;">Tanımlanmadı</span>
+                        <button id="butce-duzenle-btn" style="background: none; border: none; cursor: pointer; padding: 2px; font-size: 13px; color: #3b82f6; font-weight: bold;" title="Bütçeyi Güncelle">✏️</button>
+                    </div>
+
+                    <!-- Tekrarlayan İşlem Seçimi -->
+                    <div style="display: flex; gap: 8px; width: 100%; flex-wrap: wrap; margin-bottom: 8px;">
+                        <select id="harcama-tekrarlama-tipi" style="flex: 1; min-width: 120px; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px; background: transparent; color: inherit; font-size: 13px;">
+                            <option value="tek">Tek Seferlik (Ödemeler)</option>
+                            <option value="aylik">Aylık Tekrarlayan (Abonelik/Kira)</option>
+                        </select>
+                        <input type="number" id="harcama-tekrarlama-gun" placeholder="Hangi Gün (1-28)" min="1" max="28" style="flex: 1; min-width: 120px; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px; background: transparent; color: inherit; font-size: 13px; display: none;">
+                    </div>
+                    
+                    <div style="display: flex; gap: 8px; align-items: center; width: 100%;">
+                        <button id="harcama-ekle-btn" style="flex: 1; margin: 0;">Kayıtlara İşle</button>
+                        <button id="harcama-export-btn" type="button" style="background-color: #10b981; color: white; padding: 10px 14px; font-size: 14px; font-weight: bold; border: none; border-radius: 6px; cursor: pointer; white-space: nowrap; margin: 0; height: 100%;">Excel 📊</button>
+                    </div>
+                </div>
+                
+                <div class="zaman-analiz-matrisi">
+                    <div class="analiz-kolon">
+                        <h5>Aylık Akış Özetleri (Ortak Havuz)</h5>
+                        <table class="mini-analiz-tablosu">
+                            <tr><td>Aylık Toplam Gider:</td><td id="analiz-ay-toplam" class="kalın-text">0.00 TL</td></tr>
+                            <tr><td>Haftalık Ortalama Ritminiz:</td><td id="analiz-hafta-ort">0.00 TL</td></tr>
+                            <tr><td>Günlük Ortalama Ritminiz:</td><td id="analiz-gun-ort">0.00 TL</td></tr>
+                        </table>
+                    </div>
+                    <div class="analiz-kolon">
+                        <h5>Haftalık Yoğunluk Kıyaslaması</h5>
+                        <table class="mini-analiz-tablosu">
+                            <tr><td>1. Hafta:</td><td id="v-hafta-1">0.00 TL</td></tr>
+                            <tr><td>2. Hafta:</td><td id="v-hafta-2">0.00 TL</td></tr>
+                            <tr><td>3. Hafta:</td><td id="v-hafta-3">0.00 TL</td></tr>
+                            <tr><td>4. Hafta:</td><td id="v-hafta-4">0.00 TL</td></tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="akıllı-analiz-kutusu" id="akıllı-analiz-mesaj">
+                    Sistem veri bekliyor...
+                </div>
+
+                <div class="harcama-tablo-kapsayici" style="margin-top: 15px;">
+                    <table class="harcama-tablosu">
+                        <thead>
+                            <tr><th>Açıklama</th><th>Kategori</th><th>Dönem / Gün</th><th>Tutar (Orijinal / TL)</th><th>Aksiyon</th></tr>
+                        </thead>
+                        <tbody id="harcama-tablo-govde"></tbody>
+                    </table>
+                </div>
+
+                <!-- Tekrarlayan Harcama Yönetim Paneli -->
+                <div class="tekrarlayan-islemler-paneli" style="margin-top: 25px; border-top: 1px solid rgba(0,0,0,0.1); padding-top: 15px;">
+                    <h4 style="margin: 0 0 10px 0; font-size: 14px; font-weight: bold; display: flex; align-items: center; gap: 6px;" id="lbl-tekrarlayan-baslik">🔄 Aylık Tekrarlayan Harcamalar</h4>
+                    <div id="tekrarlayan-liste" style="display: flex; flex-direction: column; gap: 8px;">
+                        <span style="font-size: 11px; color: #64748b;" id="lbl-tekrarlayan-bos">Aktif tekrarlayan harcama şablonu bulunmuyor.</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="finans-blok makine-alani">
+                <h3>Hızlı Hesap Makinesi</h3>
+                <div class="hesap-makinesi" style="margin-bottom: 10px;">
+                    <input type="text" id="makine-ekran" readonly value="0">
+                    <div class="makine-tuslar">
+                        <button class="tus operator">C</button>
+                        <button class="tus operator">/</button>
+                        <button class="tus operator">*</button>
+                        <button class="tus operator">←</button>
+                        <button class="tus">7</button>
+                        <button class="tus">8</button>
+                        <button class="tus">9</button>
+                        <button class="tus operator">-</button>
+                        <button class="tus">4</button>
+                        <button class="tus">5</button>
+                        <button class="tus">6</button>
+                        <button class="tus operator">+</button>
+                        <button class="tus">1</button>
+                        <button class="tus">2</button>
+                        <button class="tus">3</button>
+                        <button class="tus esittir">=</button>
+                        <button class="tus sifir">0</button>
+                        <button class="tus">.</button>
+                    </div>
+                </div>
+
+                <!-- Kategori Analiz SVG & Liste Bloğu -->
+                <div class="kategori-analiz-bolum" style="margin-top: 25px; width: 100%;">
+                    <h4 class="kategori-analiz-baslik">📊 Harcama Kategorileri</h4>
+                    <div class="donut-chart-container">
+                        <svg class="donut-chart" width="100%" height="100%" viewBox="0 0 40 40" id="kategori-donut-svg">
+                            <!-- segments will be drawn here dynamically -->
+                        </svg>
+                        <div class="donut-label-total">
+                            <span class="tutar-deger" id="chart-toplam-tutar">0.00 TL</span>
+                            <span class="tutar-etiket">Toplam Gider</span>
+                        </div>
+                    </div>
+                    <div id="chart-kategori-liste" class="kategori-listesi-kapsayici">
+                        <!-- progress bars drawn dynamically -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DÖVİZ MASASI PANELİ -->
+        <div id="finans-doviz-alan" class="finans-blok" style="width: 100%; display: none;">
+            <h3>💱 Canlı Çapraz Parite Matrisi</h3>
+            <p style="color: #64748b; font-size: 14px; margin-bottom: 20px;">Dövizlerin birbirleri karşısındaki anlık parite oranları tablosu. Tablo verileri canlı kurlar temel alınarak otonom hesaplanır.</p>
+            <div style="overflow-x: auto;">
+                <table class="harcama-tablosu" style="text-align: center; font-size: 15px; width: 100%;">
+                    <thead>
+                        <tr id="doviz-matris-baslik">
+                            <th id="doviz-matris-baslik-birim">Birim</th>
+                        </tr>
+                    </thead>
+                    <tbody id="doviz-matris-govde">
+                        <!-- dynamically drawn -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- DÖVİZ HESAP HESAP MAKİNESİ / ÇEVİRİCİ -->
+            <div class="finans-blok" style="margin-top: 25px; width: 100%; border: 1px dashed rgba(59, 130, 246, 0.3); background-color: rgba(59, 130, 246, 0.02); padding: 20px; border-radius: 12px;">
+                <h3 id="cevirici-baslik" style="margin-top: 0; display: flex; align-items: center; gap: 8px;">🧮 Döviz Çeviri Hesap Makinesi</h3>
+                <p id="cevirici-aciklama" style="color: #64748b; font-size: 13px; margin-bottom: 16px;">Tüm para birimleri arasında anlık çapraz kurlarla dönüşüm yapın. İstediğiniz bir alana değer yazdığınızda diğerleri otomatik hesaplanır.</p>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px;" id="doviz-cevirici-grid">
+                    <!-- Dynamically drawn inputs in JS -->
+                </div>
+            </div>
+            
+            <!-- ÇİZGİ TREND GRAFİĞİ -->
+            <div class="finans-blok" style="margin-top: 25px; width: 100%;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
+                    <h3 style="margin: 0;">📈 Döviz Kurları Değişim Trendi</h3>
+                    <div style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap;">
+                        <!-- Zaman Aralığı Seçici -->
+                        <div class="timeframe-selector">
+                            <button type="button" class="timeframe-btn active" data-range="1w">1H</button>
+                            <button type="button" class="timeframe-btn" data-range="1m">1A</button>
+                            <button type="button" class="timeframe-btn" data-range="1y">1Y</button>
+                        </div>
+                        
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <label style="font-weight: 600; font-size: 14px; color: #475569;">Baz Döviz:</label>
+                            <select id="chart-baz-doviz" style="padding: 6px 12px; border-radius: 6px; border: 1px solid #cbd5e1; font-weight: bold; color: #334155; outline: none; background: white; cursor: pointer;">
+                                <option value="TL">TL (₺)</option>
+                                <option value="PLN">PLN (zł)</option>
+                                <option value="EUR">EUR (€)</option>
+                                <option value="USD">USD ($)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <p style="color: #64748b; font-size: 14px; margin-bottom: 20px;">Dövizlerin seçilen baz döviz birimi karşısındaki son günlerdeki karşılaştırmalı değişim oranları.</p>
+                <div style="position: relative; height: 320px; width: 100%;">
+                    <canvas id="doviz-trend-canvas"></canvas>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="../shared/chart.js"></script>
+    <script src="../shared/common.js" data-main="finans.js"></script>
+</body>
+</html>

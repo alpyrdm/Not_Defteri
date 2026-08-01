@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logbook Menü</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-color: #0f172a;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --hover-bg: #f1f5f9;
+            
+            --primary: #3b82f6;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --purple: #8b5cf6;
+            --rose: #f43f5e;
+        }
+
+        body.dark-theme {
+            --bg-color: #0b0f19;
+            --card-bg: #151f32;
+            --text-color: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: #1e293b;
+            --hover-bg: #1e293b;
+        }
+
+        body {
+            width: 280px;
+            margin: 0;
+            padding: 16px;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Outfit', sans-serif;
+            box-sizing: border-box;
+            transition: background-color 0.3s;
+            overflow-x: hidden;
+        }
+
+        .popup-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .popup-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin: 0;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 0.5px;
+        }
+
+        .menu-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .popup-card {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .popup-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--primary);
+            background-color: var(--hover-bg);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1);
+        }
+
+        .card-icon-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            border-radius: 8px;
+            font-size: 18px;
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--primary);
+            flex-shrink: 0;
+        }
+
+        .card-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .card-title {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .card-desc {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        /* Specific colors for card icons */
+        .card-pano .card-icon-wrapper {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+        }
+        .card-pano:hover { border-color: var(--warning); box-shadow: 0 4px 12px rgba(245, 158, 11, 0.1); }
+
+        .card-todo .card-icon-wrapper {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+        .card-todo:hover { border-color: var(--success); box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1); }
+
+        .card-ajanda .card-icon-wrapper {
+            background: rgba(139, 92, 246, 0.1);
+            color: var(--purple);
+        }
+        .card-ajanda:hover { border-color: var(--purple); box-shadow: 0 4px 12px rgba(139, 92, 246, 0.1); }
+
+        .card-defter .card-icon-wrapper {
+            background: rgba(244, 63, 94, 0.1);
+            color: var(--rose);
+        }
+        .card-defter:hover { border-color: var(--rose); box-shadow: 0 4px 12px rgba(244, 63, 94, 0.1); }
+
+        .card-finans .card-icon-wrapper {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--primary);
+        }
+        .card-finans:hover { border-color: var(--primary); box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1); }
+    </style>
+</head>
+<body>
+    <div class="popup-header">
+        <h3 class="popup-title">Logbook Kontrol</h3>
+    </div>
+    
+    <div class="menu-list">
+        <div class="popup-card card-pano" data-page="pano.html">
+            <div class="card-icon-wrapper">📌</div>
+            <div class="card-info">
+                <span class="card-title">Pano</span>
+                <span class="card-desc">Fikirleri post-it notlarla organize edin.</span>
+            </div>
+        </div>
+        
+        <div class="popup-card card-todo" data-page="todo.html">
+            <div class="card-icon-wrapper">📋</div>
+            <div class="card-info">
+                <span class="card-title">Yapılacaklar</span>
+                <span class="card-desc">Kanban panosu ile işlerinizi takip edin.</span>
+            </div>
+        </div>
+        
+        <div class="popup-card card-ajanda" data-page="ajanda.html">
+            <div class="card-icon-wrapper">📅</div>
+            <div class="card-info">
+                <span class="card-title">Ajanda / Takvim</span>
+                <span class="card-desc">Günlük, haftalık ve aylık planlama.</span>
+            </div>
+        </div>
+        
+        <div class="popup-card card-defter" data-page="defter.html">
+            <div class="card-icon-wrapper">✍️</div>
+            <div class="card-info">
+                <span class="card-title">Hibrit Defter</span>
+                <span class="card-desc">Not yazın, resim çizin ve ekleyin.</span>
+            </div>
+        </div>
+        
+        <div class="popup-card card-finans" data-page="finans.html">
+            <div class="card-icon-wrapper">📊</div>
+            <div class="card-info">
+                <span class="card-title">Finans ve Harcama</span>
+                <span class="card-desc">Bütçenizi ve giderlerinizi yönetin.</span>
+            </div>
+        </div>
+    </div>
+    
+    <script src="popup.js"></script>
+</body>
+</html>

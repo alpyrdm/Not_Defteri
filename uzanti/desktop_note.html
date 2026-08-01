@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logbook - Hızlı Not</title>
+    <link rel="stylesheet" href="../shared/style.css">
+    <link rel="icon" type="image/png" href="icons/icon48.png">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Default Yellow Post-it Theme */
+            --postit-bg: #fef08a;
+            --postit-header: #fde047;
+            --postit-text: #713f12;
+            --postit-border: #eab308;
+        }
+
+        /* Color Themes */
+        body.theme-yellow {
+            --postit-bg: #fef9c3; --postit-header: #fef08a; --postit-text: #713f12; --postit-border: #fde047;
+        }
+        body.theme-green {
+            --postit-bg: #ccfbf1; --postit-header: #99f6e4; --postit-text: #115e59; --postit-border: #5eead4;
+        }
+        body.theme-pink {
+            --postit-bg: #ffe4e6; --postit-header: #fecdd3; --postit-text: #4c0519; --postit-border: #fda4af;
+        }
+        body.theme-blue {
+            --postit-bg: #e0f2fe; --postit-header: #bae6fd; --postit-text: #0c4a6e; --postit-border: #7dd3fc;
+        }
+        body.theme-dark {
+            --postit-bg: #1e293b; --postit-header: #0f172a; --postit-text: #cbd5e1; --postit-border: #334155;
+        }
+
+        body.page-stickynote {
+            margin: 0 !important;
+            padding: 0 !important;
+            background-color: var(--postit-bg) !important;
+            color: var(--postit-text) !important;
+            font-family: 'Outfit', sans-serif !important;
+            height: 100vh !important;
+            display: flex !important;
+            flex-direction: column !important;
+            box-sizing: border-box !important;
+            overflow: hidden !important;
+            transition: background-color 0.2s !important;
+        }
+
+        .postit-header {
+            background-color: var(--postit-header);
+            padding: 6px 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--postit-border);
+            user-select: none;
+            transition: background-color 0.2s, border-color 0.2s;
+            gap: 6px;
+            overflow: hidden;
+        }
+
+        .postit-title {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--postit-text) !important;
+            opacity: 0.8;
+        }
+
+        .color-dots {
+            display: flex;
+            gap: 5px;
+            flex-shrink: 0;
+        }
+
+        .color-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 1px solid rgba(0,0,0,0.15);
+            transition: transform 0.1s;
+        }
+
+        .color-dot:hover {
+            transform: scale(1.2);
+        }
+
+        .dot-yellow { background-color: #fde047; }
+        .dot-green { background-color: #5eead4; }
+        .dot-pink { background-color: #fda4af; }
+        .dot-blue { background-color: #3b82f6; }
+        .dot-dark { background-color: #0f172a; }
+
+        #select-note-page {
+            background: rgba(0, 0, 0, 0.04);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            color: inherit;
+            font-family: 'Outfit', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 3px 18px 3px 8px;
+            border-radius: 20px;
+            outline: none;
+            cursor: pointer;
+            max-width: 120px;
+            transition: all 0.2s;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 6px center;
+            background-size: 10px;
+            text-overflow: ellipsis;
+        }
+        #select-note-page:hover {
+            background-color: rgba(0, 0, 0, 0.08);
+        }
+        body.theme-dark #select-note-page {
+            background-color: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.1);
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+        }
+        body.theme-dark #select-note-page:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        #btn-add-note-page {
+            background: rgba(0, 0, 0, 0.04);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: inherit;
+            padding: 0;
+            flex-shrink: 0;
+        }
+        #btn-add-note-page:hover {
+            background-color: rgba(0, 0, 0, 0.08);
+            transform: scale(1.05);
+        }
+        body.theme-dark #btn-add-note-page {
+            background-color: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+        body.theme-dark #btn-add-note-page:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        #btn-delete-note-page {
+            background: rgba(0, 0, 0, 0.04);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: inherit;
+            padding: 0;
+            font-size: 12px;
+            flex-shrink: 0;
+        }
+        #btn-delete-note-page:hover {
+            background-color: rgba(239, 68, 68, 0.15);
+            border-color: rgba(239, 68, 68, 0.3);
+            color: #ef4444;
+            transform: scale(1.05);
+        }
+        body.theme-dark #btn-delete-note-page {
+            background-color: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+        body.theme-dark #btn-delete-note-page:hover {
+            background-color: rgba(239, 68, 68, 0.2);
+            border-color: rgba(239, 68, 68, 0.4);
+            color: #f87171;
+        }
+
+        .postit-body {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            box-sizing: border-box;
+            overflow-y: auto;
+        }
+
+        .postit-textarea {
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            border: none;
+            resize: none;
+            outline: none;
+            font-family: 'Outfit', sans-serif;
+            font-size: 13px;
+            line-height: 1.5;
+            color: var(--postit-text);
+            padding: 0;
+            margin: 0;
+            overflow-y: auto;
+        }
+        .postit-textarea[contenteditable="true"]:empty::before {
+            content: attr(placeholder);
+            color: var(--postit-text);
+            opacity: 0.55;
+            cursor: text;
+        }
+
+        .postit-footer {
+            padding: 4px 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px dashed var(--postit-border);
+            background-color: rgba(255,255,255,0.15);
+            gap: 4px;
+            overflow: hidden;
+            flex-wrap: nowrap;
+        }
+
+        .footer-actions {
+            display: flex;
+            gap: 3px;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .action-btn {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 13px;
+            padding: 2px 3px;
+            border-radius: 4px;
+            transition: background-color 0.1s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--postit-text) !important;
+            flex-shrink: 0;
+            min-width: 22px;
+            height: 24px;
+            line-height: 1;
+            box-sizing: border-box;
+        }
+
+        .action-btn:hover {
+            background-color: rgba(255,255,255,0.3);
+        }
+
+        .save-indicator {
+            font-size: 10px;
+            font-weight: 500;
+            color: var(--postit-text) !important;
+            opacity: 0.7;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 65px;
+            flex-shrink: 1;
+        }
+
+        .postit-image-wrapper {
+            display: none;
+            position: relative;
+            margin-top: 8px;
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1px solid var(--postit-border);
+            max-height: 220px;
+            transition: all 0.25s ease-in-out;
+            cursor: pointer;
+            text-align: center;
+            background-color: rgba(0,0,0,0.04);
+        }
+
+        .postit-image-wrapper img {
+            width: 100%;
+            max-height: 220px;
+            object-fit: contain;
+            transition: all 0.25s ease-in-out;
+            display: block;
+        }
+
+        /* Minimized state when right-clicked */
+        .postit-image-wrapper.minimized {
+            max-height: 50px !important;
+            max-width: 80px;
+            margin-left: 0;
+            border-style: dashed;
+        }
+
+        .postit-image-wrapper.minimized img {
+            max-height: 50px !important;
+            object-fit: cover;
+        }
+
+        /* Custom Context Menu */
+        #image-context-menu, #text-context-menu {
+            display: none;
+            position: absolute;
+            z-index: 10000;
+            background: var(--postit-bg);
+            border: 2px solid var(--postit-border);
+            border-radius: 8px;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.18);
+            padding: 4px;
+            font-size: 11px;
+            min-width: 145px;
+            font-family: inherit;
+        }
+
+        #image-context-menu .menu-section, #text-context-menu .menu-section {
+            font-weight: bold;
+            padding: 4px 8px;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            opacity: 0.7;
+            color: var(--postit-text);
+        }
+
+        #image-context-menu .menu-item, #text-context-menu .menu-item {
+            padding: 6px 10px;
+            cursor: pointer;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--postit-text);
+            transition: background-color 0.15s;
+        }
+
+        #image-context-menu .menu-item:hover, #text-context-menu .menu-item:hover {
+            background-color: rgba(255,255,255,0.45);
+        }
+        body.theme-dark #image-context-menu .menu-item:hover, body.theme-dark #text-context-menu .menu-item:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        #text-context-menu {
+            min-width: 175px;
+            max-width: 190px;
+            padding: 8px;
+        }
+        .menu-row {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 5px;
+        }
+        .menu-section-title {
+            font-weight: bold;
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            opacity: 0.7;
+            color: var(--postit-text);
+            margin: 4px 0 2px 2px;
+        }
+        .menu-btn-square {
+            flex: 1;
+            height: 24px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            cursor: pointer;
+            background: rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            font-size: 10px;
+            color: var(--postit-text);
+            transition: all 0.15s;
+            padding: 0 !important;
+        }
+        body.theme-dark .menu-btn-square {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+        .font-list-scroll {
+            max-height: 70px;
+            overflow-y: auto;
+            border: 1px solid var(--postit-border);
+            border-radius: 5px;
+            padding: 2px;
+            margin-bottom: 5px;
+            background: rgba(0, 0, 0, 0.02);
+        }
+        body.theme-dark .font-list-scroll {
+            background: rgba(255, 255, 255, 0.02);
+        }
+        .font-item {
+            padding: 3px 6px !important;
+            cursor: pointer;
+            border-radius: 3px;
+            font-size: 10px;
+            color: var(--postit-text);
+            display: block !important;
+        }
+        .color-palette-row {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+            margin-bottom: 5px;
+            flex-wrap: wrap;
+        }
+        .color-circle-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 1px solid rgba(0,0,0,0.15);
+            transition: transform 0.1s;
+            padding: 0 !important;
+        }
+        .color-circle-dot:hover {
+            transform: scale(1.2);
+        }
+        @keyframes recording-pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.4; }
+            100% { opacity: 1; }
+        }
+        .pulse-recording {
+            animation: recording-pulse 1s infinite;
+            background-color: #ef4444 !important;
+            color: white !important;
+        }
+    </style>
+</head>
+<body class="page-stickynote theme-yellow">
+    <div id="image-context-menu">
+        <div class="menu-section">Boyutlandırma</div>
+        <div class="menu-item" data-size="30%">🔍 Küçük (%30)</div>
+        <div class="menu-item" data-size="60%">⚖️ Orta (%60)</div>
+        <div class="menu-item" data-size="100%">🔎 Büyük (%100)</div>
+        <div class="menu-item" data-action="custom-size" style="color: #3b82f6; font-weight: bold;">✏️ Elle Boyut Gir...</div>
+        
+        <div style="height: 1px; background: var(--postit-border); margin: 4px 0;"></div>
+        
+        <div class="menu-section">Hizalama / Duruş</div>
+        <div class="menu-item" data-align="block">📝 Blok (Ortala)</div>
+        <div class="menu-item" data-align="inline">🔗 Satır İçi</div>
+        <div class="menu-item" data-align="left">👈 Sola Yasla</div>
+        <div class="menu-item" data-align="right">👉 Sağa Yasla</div>
+        <div class="menu-item" data-align="bottom">⬇️ En Alta Sabitle</div>
+        
+        <div style="height: 1px; background: var(--postit-border); margin: 4px 0;"></div>
+        
+        <div class="menu-item" data-action="delete" style="color: #ef4444; font-weight: bold;">🗑️ Resmi Sil</div>
+    </div>
+    
+    <div id="text-context-menu">
+        <div class="menu-section-title">Biçim</div>
+        <div class="menu-row">
+            <div class="menu-item menu-btn-square" data-command="bold" title="Kalın"><b>B</b></div>
+            <div class="menu-item menu-btn-square" data-command="italic" title="İtalik"><i>I</i></div>
+            <div class="menu-item menu-btn-square" data-command="underline" title="Altı Çizili"><u>U</u></div>
+        </div>
+        
+        <div class="menu-section-title">Boyut</div>
+        <div class="menu-row" style="flex-wrap: wrap;">
+            <div class="menu-item menu-btn-square" data-command="font-size-percent" data-value="11px">11</div>
+            <div class="menu-item menu-btn-square" data-command="font-size-percent" data-value="13px">13</div>
+            <div class="menu-item menu-btn-square" data-command="font-size-percent" data-value="16px">16</div>
+            <div class="menu-item menu-btn-square" data-command="font-size-percent" data-value="20px">20</div>
+        </div>
+        <div class="menu-row">
+            <div class="menu-item menu-btn-square" data-command="font-size-percent" data-value="26px">26</div>
+            <div class="menu-item menu-btn-square" data-command="custom-font-size" style="color: #3b82f6; font-weight: bold;">✏️ Elle</div>
+        </div>
+        
+        <div class="menu-section-title">Yazı Tipi</div>
+        <div class="font-list-scroll">
+            <div class="menu-item font-item" data-command="fontName" data-value="Outfit">Outfit</div>
+            <div class="menu-item font-item" data-command="fontName" data-value="Georgia">Georgia</div>
+            <div class="menu-item font-item" data-command="fontName" data-value="Courier New">Monospace</div>
+            <div class="menu-item font-item" data-command="fontName" data-value="Arial">Arial</div>
+            <div class="menu-item font-item" data-command="fontName" data-value="Times New Roman">Times</div>
+            <div class="menu-item font-item" data-command="fontName" data-value="Comic Sans MS">Comic</div>
+            <div class="menu-item font-item" data-command="fontName" data-value="Impact">Impact</div>
+            <div class="menu-item font-item" data-command="custom-font-name" style="color: #3b82f6; font-weight: bold;">✏️ Yazı Tipi...</div>
+        </div>
+        
+        <div class="menu-section-title">Renk</div>
+        <div class="color-palette-row">
+            <div class="menu-item color-circle-dot" data-command="foreColor" data-value="#ef4444" style="background-color: #ef4444;" title="Kırmızı"></div>
+            <div class="menu-item color-circle-dot" data-command="foreColor" data-value="#10b981" style="background-color: #10b981;" title="Yeşil"></div>
+            <div class="menu-item color-circle-dot" data-command="foreColor" data-value="#3b82f6" style="background-color: #3b82f6;" title="Mavi"></div>
+            <div class="menu-item color-circle-dot" data-command="foreColor" data-value="#f59e0b" style="background-color: #f59e0b;" title="Sarı"></div>
+            <div class="menu-item color-circle-dot" data-command="foreColor" data-value="#8b5cf6" style="background-color: #8b5cf6;" title="Mor"></div>
+            <div class="menu-item color-circle-dot" data-command="foreColor" data-value="#f97316" style="background-color: #f97316;" title="Turuncu"></div>
+            <div class="menu-item menu-btn-square" data-command="custom-fore-color" style="font-size: 9px; padding: 2px 4px; height: 18px; border-radius: 4px; color: #3b82f6;" title="Renk Kodu Gir">🎨</div>
+        </div>
+        
+        <div style="height: 1px; background: var(--postit-border); margin: 6px 0;"></div>
+        <div class="menu-item" data-action="toggle-spellcheck" id="btn-toggle-spellcheck" style="font-weight: 600; display: flex; justify-content: space-between; align-items: center; width: 100%;">
+            <span>🔤 Yazım Denetimi:</span>
+            <span id="spellcheck-status-label" style="font-weight: bold; color: #10b981; margin-left: 8px;">Açık</span>
+        </div>
+        <div class="menu-item menu-btn-square" data-command="removeFormat" style="color: #ef4444; font-weight: bold; border-color: #fca5a5; background: rgba(239, 68, 68, 0.08); margin-top: 4px;">🧹 Temizle</div>
+    </div>
+    <div class="postit-header">
+        <div class="header-left-page-controls" style="display: flex; align-items: center; gap: 4px; flex-shrink: 0;">
+            <select id="select-note-page"></select>
+            <button id="btn-add-note-page">➕</button>
+            <button id="btn-delete-note-page" title="Bu Sayfayı Sil">🗑️</button>
+        </div>
+        <div class="color-dots">
+            <div class="color-dot dot-yellow" data-theme="theme-yellow" title="Sarı"></div>
+            <div class="color-dot dot-green" data-theme="theme-green" title="Yeşil (Nane)"></div>
+            <div class="color-dot dot-pink" data-theme="theme-pink" title="Pembe (Gül)"></div>
+            <div class="color-dot dot-blue" data-theme="theme-blue" title="Mavi (Okyanus)"></div>
+            <div class="color-dot dot-dark" data-theme="theme-dark" title="Siyah (Gece)"></div>
+        </div>
+    </div>
+    <div class="postit-body">
+        <div class="postit-textarea" id="postit-text" contenteditable="true" placeholder="Notlarınızı buraya yazın..." autofocus></div>
+        
+        <div id="postit-image-container" class="postit-image-wrapper">
+            <img id="postit-image-preview">
+            <button id="btn-remove-image" style="position: absolute; top: 4px; right: 4px; background: rgba(0,0,0,0.6); color: white; border: none; border-radius: 50%; width: 20px; height: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; line-height: 1;">×</button>
+        </div>
+    </div>
+    <div class="postit-footer">
+        <div style="display: flex; align-items: center; gap: 3px; flex-shrink: 0;">
+            <button class="action-btn" id="btn-voice" title="Sesle Not Yaz">🎙️</button>
+            <button class="action-btn" id="btn-voice-memo" title="Ses Kaydı Ekle">🎤</button>
+            <label for="postit-img-upload" class="action-btn" id="btn-image-label" title="Resim Ekle" style="margin: 0; cursor: pointer; display: flex; align-items: center; justify-content: center;">🖼️</label>
+            <input type="file" id="postit-img-upload" accept="image/*" style="display: none;">
+            <div class="save-indicator" id="save-status">Kaydedildi</div>
+        </div>
+        <div class="footer-actions">
+            <button class="action-btn" id="btn-spellcheck" title="Yazım Denetimi (Kırmızı Çizgiler): Açık/Kapalı">🔤</button>
+            <button class="action-btn" id="btn-backup" title="Yedekle & Geri Yükle">💾</button>
+            <button class="action-btn" id="btn-todo" title="Yapılacakları Aç">✔️</button>
+            <button class="action-btn" id="btn-ajanda" title="Ajandayı Aç">📅</button>
+            <button class="action-btn" id="btn-fin" title="Finans Panelini Aç">💰</button>
+            <button class="action-btn" id="btn-clear" title="Kaydet & Temizle">🗑️</button>
+        </div>
+    </div>
+
+    <!-- Backup & Restore Modal -->
+    <div id="backup-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 20000; align-items: center; justify-content: center; font-family: 'Outfit', sans-serif;">
+        <div style="background: white; padding: 20px; border-radius: 12px; width: 260px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); text-align: center; color: #1e293b;">
+            <h4 style="margin: 0 0 10px 0; font-size: 15px; font-weight: bold;" id="backup-title">Yedekle & Geri Yükle</h4>
+            <p style="margin: 0 0 20px 0; font-size: 11px; color: #64748b; line-height: 1.4;" id="backup-desc">Tüm Logbook verilerinizi tek dosyada yedekleyin veya yedekten geri yükleyin.</p>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <button id="btn-do-backup" style="background: #3b82f6; color: white; border: none; padding: 8px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">📤 Dışa Aktar (Yedekle)</button>
+                <button id="btn-do-restore" style="background: #10b981; color: white; border: none; padding: 8px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">📥 İçe Aktar (Geri Yükle)</button>
+                <input type="file" id="restore-file-input" accept=".json" style="display: none;">
+                <button id="btn-close-backup" style="background: transparent; color: #64748b; border: 1px solid #cbd5e1; padding: 6px; border-radius: 6px; font-size: 12px; cursor: pointer; margin-top: 4px;">Kapat</button>
+            </div>
+        </div>
+    </div>
+    
+    <input type="color" id="hidden-color-picker" style="display: none; visibility: hidden; width: 0; height: 0; padding: 0; border: none;">
+    <script src="../shared/common.js" data-main="desktop_note.js"></script>
+</body>
+</html>

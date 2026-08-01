@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logbook - Ajanda ve Takvim</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../shared/style.css">
+    <link rel="icon" type="image/png" href="icons/icon48.png">
+</head>
+<body class="page-ajanda">
+
+    <div class="nav-bar">
+        <a href="../index.html" class="nav-brand">Logbook</a>
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <div class="tab-buttons">
+                <a id="btn-pano-sekme" class="tab-btn" href="../pano/pano.html">Pano</a>
+                <a id="btn-todo-sekme" class="tab-btn" href="../todo/todo.html">Yapılacaklar</a>
+                <a id="btn-ajanda-sekme" class="tab-btn active" href="../ajanda/ajanda.html">Ajanda / Takvim</a>
+                <a id="btn-defter-sekme" class="tab-btn" href="../defter/defter.html">Defter</a>
+                <div class="nav-dropdown-container">
+                    <a id="btn-finans-sekme" class="tab-btn" href="../finans/finans.html">Finans & Zaman Analizi</a>
+                    <div class="nav-dropdown-content">
+                        <a href="../finans/finans.html#butce">💰 Bütçe & Harcamalar</a>
+                        <a href="../finans/finans.html#doviz">💱 Canlı Döviz Masası</a>
+                    </div>
+                </div>
+            </div>
+            <button id="dark-mode-toggle" class="dark-mode-btn" title="Temayı Değiştir">🌙</button>
+        </div>
+    </div>
+
+    <div id="ajanda-sekme" class="tab-content active">
+        <div class="ajanda-wrapper">
+            <div class="ajanda-alt-menu">
+                <button id="btn-gunlik-alan" class="alt-tab-btn">Günlük Plan</button>
+                <button id="btn-haftalik-alan" class="alt-tab-btn">Haftalık Program</button>
+                <button id="btn-aylik-alan" class="alt-tab-btn">Aylık Takvim</button>
+            </div>
+
+            <div id="gunlik-alan" class="ajanda-sub-content">
+                <div class="ajanda-kart">
+                    <div class="ajanda-kart-header" style="display:flex; align-items:center; gap:10px; justify-content:center; margin-bottom:15px;">
+                        <button id="gunluk-tarih-geri-btn" class="alt-tab-btn" style="padding: 2px 8px; font-size: 12px; margin:0;">◀</button>
+                        <h3 id="gunluk-tarih-baslik" style="margin:0; color:#1e293b; font-size:14px; text-align:center; flex-grow:1;">Yükleniyor...</h3>
+                        <button id="gunluk-tarih-ileri-btn" class="alt-tab-btn" style="padding: 2px 8px; font-size: 12px; margin:0;">▶</button>
+                    </div>
+                    
+                    <h4 style="margin: 0 0 10px 0; color: #64748b; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">📋 Haftalık Rutin Programı</h4>
+                    <div class="gunluk-odak-listesi" id="gunluk-aktif-planlar"></div>
+                    
+                    <div id="gunluk-ozel-planlar-kapsayici" class="ozel-planlar-bolumu" style="display: none;">
+                        <h4 class="ozel-planlar-baslik">📅 Bugünün Özel Takvim Etkinlikleri</h4>
+                        <div class="gunluk-odak-listesi" id="gunluk-ozel-aktif-planlar"></div>
+                    </div>
+                    
+                    <button id="ac-plan-modal-btn" class="ekle-aksiyon-btn" style="margin-top: 15px;">+ Yeni Plan Ekle</button>
+                </div>
+            </div>
+
+            <div id="haftalik-alan" class="ajanda-sub-content">
+                <div class="haftalik-tablo-kart">
+                    <div class="haftalik-program-tablosu">
+                        <div class="tablo-satir baslik-satiri" id="haftalik-baslik-satiri">
+                            </div>
+                        <div id="haftalik-tablo-govde"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="aylik-alan" class="ajanda-sub-content">
+                <div class="takvim-kontrol">
+                    <button id="onceki-ay-btn">&lt; Önceki</button>
+                    <h2 id="takvim-ay-yil-baslik">Haziran 2026</h2>
+                    <button id="sonraki-ay-btn">Sonraki &gt;</button>
+                </div>
+                <div class="takvim-kart">
+                    <div class="takvim-gunler-basliklar">
+                        <div>Pzt</div><div>Sal</div><div>Çar</div><div>Per</div><div>Cum</div><div>Cmt</div><div>Paz</div>
+                    </div>
+                    <div id="takvim-gunler-grid"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="plan-modal" class="modal-arkaplan">
+        <div class="modal-kutu">
+            <h3 id="modal-baslik">Yeni Plan Oluştur</h3>
+            <div id="modal-secilen-tarih-alani" style="font-weight: bold; font-size: 15px; color: #3b82f6; margin-bottom: 10px; display: none;">Tarih: -</div>
+            <div class="modal-form">
+                <div id="modal-gun-kapsayici">
+                    <label>Gün Seçin:</label>
+                    <select id="modal-gun-select"></select>
+                </div>
+                <button type="button" id="modal-tum-gun-btn" class="modal-toggle-btn">Tüm Gün Sürecek Hatırlatıcı: Kapalı 🔴</button>
+                <div id="modal-saat-kapsayici">
+                    <label>Saat Seçin:</label><input type="time" id="modal-saat-select" style="padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px; background: transparent; color: inherit; font-size: 14px; font-family: inherit; outline: none; width: 100%; box-sizing: border-box; margin-top: 4px;">
+                </div>
+                <label>Notunuz:</label><input type="text" id="modal-not-input" placeholder="Planınızı buraya yazın...">
+            </div>
+            <div class="modal-butonlar">
+                <button id="modal-iptal-btn" class="modal-btn-sol">İptal</button>
+                <button id="modal-kaydet-btn" class="modal-btn-sag">Plana Ekle</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../shared/common.js" data-main="ajanda.js"></script>
+</body>
+</html>

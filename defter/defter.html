@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logbook - Defter</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../shared/style.css">
+    <link rel="icon" type="image/png" href="icons/icon48.png">
+</head>
+<body class="page-defter">
+
+    <div class="nav-bar">
+        <a href="../index.html" class="nav-brand">Logbook</a>
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <div class="tab-buttons">
+                <a id="btn-pano-sekme" class="tab-btn" href="../pano/pano.html">Pano</a>
+                <a id="btn-todo-sekme" class="tab-btn" href="../todo/todo.html">Yapılacaklar</a>
+                <a id="btn-ajanda-sekme" class="tab-btn" href="../ajanda/ajanda.html">Ajanda / Takvim</a>
+                <a id="btn-defter-sekme" class="tab-btn active" href="../defter/defter.html">Defter</a>
+                <div class="nav-dropdown-container">
+                    <a id="btn-finans-sekme" class="tab-btn" href="../finans/finans.html">Finans & Zaman Analizi</a>
+                    <div class="nav-dropdown-content">
+                        <a href="../finans/finans.html#butce">💰 Bütçe & Harcamalar</a>
+                        <a href="../finans/finans.html#doviz">💱 Canlı Döviz Masası</a>
+                    </div>
+                </div>
+            </div>
+            <button id="dark-mode-toggle" class="dark-mode-btn" title="Temayı Değiştir">🌙</button>
+        </div>
+    </div>
+
+    <div id="defter-sekme" class="tab-content active">
+        <div class="defter-container">
+            <div class="defter-header">
+                <div class="defter-top-bar">
+                    <span class="defter-title">Akıllı Defter</span>
+                    <div class="sayfa-kontrolleri">
+                        <button id="sayfa-onceki-btn" class="defter-btn-nav" title="Önceki Sayfa">◀</button>
+                        <span id="sayfa-indis-etiket" class="defter-baslik-etiketi">1 / 1</span>
+                        <button id="sayfa-sonraki-btn" class="defter-btn-nav" title="Sonraki Sayfa">▶</button>
+                        <button id="sayfa-ekle-btn" class="defter-btn-aksiyon" title="Yeni Sayfa">+</button>
+                        <button id="sayfa-sil-btn" class="defter-btn-sil" title="Bu Sayfayı Sil">🗑️</button>
+                    </div>
+                </div>
+
+                <div class="defter-toolbar">
+                    <button id="defter-cizgi-toggle" class="defter-tool-btn">📝 Çizgili</button>
+                    <button id="defter-mod-toggle" class="defter-tool-btn">✍️ Yazı</button>
+                    <button id="defter-ses-btn" class="defter-tool-btn" title="Sesle Not Yaz">🎙️ Sesle</button>
+                    <button id="defter-ses-memo-btn" class="defter-tool-btn" title="Ses Kaydı Ekle">🎤 Kaydet</button>
+                    <label for="resim-yukle" class="defter-tool-btn" style="cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 4px; margin: 0; padding: 6px 12px; font-size: 13px;" title="Resim Ekle">🖼️ Resim</label>
+                    <input type="file" id="resim-yukle" accept="image/*" style="display: none;">
+                    <button id="defter-word-export-btn" class="defter-tool-btn" title="Defteri Word Belgesi Olarak İndir" style="background-color: #eff6ff; color: #1d4ed8; border-color: #bfdbfe; font-weight: bold;">📥 Word'e Aktar</button>
+                    <button id="defter-kaydet-btn" class="defter-tool-btn success-btn" title="Manuel Kaydet">💾 Kaydet</button>
+                    <button id="defteri-temizle-btn" class="defter-tool-btn danger-btn">🔄 Sıfırla</button>
+                </div>
+
+                <div id="firca-paneli" class="defter-brush-bar" style="opacity: 0.4; pointer-events: none;">
+                    <div class="brush-left">
+                        <input type="color" id="firca-renk" value="#3b82f6" title="Fırça Rengi">
+                        <input type="range" id="firca-boyut" min="1" max="20" value="5" title="Fırça Boyutu">
+                        <span id="boyut-etiket">5px</span>
+                    </div>
+                    <div class="brush-right">
+                        <button id="defter-silgi-btn" class="defter-tool-btn" title="Silgi">🧽 Silgi</button>
+                        <button id="defter-undo-btn" class="defter-tool-btn" title="Son Çizgiyi Geri Al">↩ Geri</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hibrit-defter-yapraki">
+                <div id="defter-kagit-tabakasi" class="defter-kagit-efekti mod-cizgili">
+                    <div id="ana-defter" contenteditable="true" placeholder="Buraya yazı yazabilir, mod değiştirip üzerine çizim yapabilir veya resim ekleyebilirsiniz..."></div>
+                </div>
+                <canvas id="defter-tuval"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script src="../shared/common.js" data-main="defter.js"></script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logbook - Defter (Widget)</title>
+    <link rel="stylesheet" href="../shared/style.css">
+</head>
+<body class="page-defter popup-widget-mode">
+
+    <button class="popup-back-btn">←</button>
+
+    <div id="defter-sekme" class="tab-content active">
+        <div class="defter-container">
+            <div class="defter-header">
+                <div class="defter-top-bar">
+                    <span class="defter-title">Akıllı Defter</span>
+                    <div class="sayfa-kontrolleri">
+                        <button id="sayfa-onceki-btn" class="defter-btn-nav" title="Önceki Sayfa">◀</button>
+                        <span id="sayfa-indis-etiket" class="defter-baslik-etiketi">1 / 1</span>
+                        <button id="sayfa-sonraki-btn" class="defter-btn-nav" title="Sonraki Sayfa">▶</button>
+                        <button id="sayfa-ekle-btn" class="defter-btn-aksiyon" title="Yeni Sayfa">+</button>
+                        <button id="sayfa-sil-btn" class="defter-btn-sil" title="Bu Sayfayı Sil">🗑️</button>
+                    </div>
+                </div>
+
+                <div class="defter-toolbar">
+                    <button id="defter-cizgi-toggle" class="defter-tool-btn">📝 Çizgili</button>
+                    <button id="defter-mod-toggle" class="defter-tool-btn">✍️ Yazı</button>
+                    <button id="defter-ses-btn" class="defter-tool-btn" title="Sesle Not Yaz">🎙️ Sesle</button>
+                    <button id="defter-kaydet-btn" class="defter-tool-btn success-btn" title="Manuel Kaydet">💾 Kaydet</button>
+                    <button id="defteri-temizle-btn" class="defter-tool-btn danger-btn">🔄 Sıfırla</button>
+                </div>
+
+                <div id="firca-paneli" class="defter-brush-bar" style="opacity: 0.4; pointer-events: none;">
+                    <div class="brush-left">
+                        <input type="color" id="firca-renk" value="#3b82f6" title="Fırça Rengi">
+                        <input type="range" id="firca-boyut" min="1" max="20" value="5" title="Fırça Boyutu">
+                        <span id="boyut-etiket">5px</span>
+                    </div>
+                    <div class="brush-right">
+                        <button id="defter-silgi-btn" class="defter-tool-btn" title="Silgi">🧽 Silgi</button>
+                        <button id="defter-undo-btn" class="defter-tool-btn" title="Son Çizgiyi Geri Al">↩ Geri</button>
+                        <label for="resim-yukle" class="resim-yukle-etiket" title="Resim Ekle">🖼️ Resim</label>
+                        <input type="file" id="resim-yukle" accept="image/*" style="display: none;">
+                    </div>
+                </div>
+            </div>
+
+            <div class="hibrit-defter-yapraki">
+                <div id="defter-kagit-tabakasi" class="defter-kagit-efekti mod-cizgili">
+                    <textarea id="ana-defter" placeholder="Buraya yazı yazabilir, mod değiştirip üzerine çizim yapabilir veya resim ekleyebilirsiniz..."></textarea>
+                </div>
+                <canvas id="defter-tuval"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script src="../shared/common.js" data-main="../defter/defter.js"></script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logbook - Yapılacaklar (Widget)</title>
+    <link rel="stylesheet" href="../shared/style.css">
+</head>
+<body class="page-todo popup-widget-mode">
+
+    <button class="popup-back-btn">←</button>
+
+    <div id="todo-sekme" class="tab-content active">
+        <div class="todo-hub">
+            <div class="todo-sidebar">
+                <h3>Listelerim</h3>
+                <ul id="listeler-menusu"></ul>
+                <button id="yeni-liste-btn">+ Yeni Liste Oluştur</button>
+            </div>
+            <div class="todo-main">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h2 id="aktif-liste-basligi" style="margin:0;">Genel Görevler</h2>
+                    <button id="liste-sil-btn" style="background:#fee2e2; color:#ef4444; border:1px solid #fca5a5; padding:6px 12px; border-radius:6px; cursor:pointer; font-weight:600; font-size:13px;">Bu Listeyi Komple Sil</button>
+                </div>
+                <div class="todo-input-area">
+                    <input type="text" id="todo-input" placeholder="Bu listeye yeni görev ekle...">
+                    <button id="todo-ekle-btn">Ekle</button>
+                </div>
+                
+                <div class="kanban-board">
+                    <div class="kanban-column" id="havuz-todo" ondragover="allowDrop(event)" ondrop="handleHavuzDrop(event, 'todo')">
+                        <h4>📋 Yapılacaklar</h4>
+                        <ul id="todo-liste-todo" class="kanban-list"></ul>
+                    </div>
+                    <div class="kanban-column" id="havuz-progress" ondragover="allowDrop(event)" ondrop="handleHavuzDrop(event, 'progress')">
+                        <h4>⚡ Yapılıyor</h4>
+                        <ul id="todo-liste-progress" class="kanban-list"></ul>
+                    </div>
+                    <div class="kanban-column" id="havuz-done" ondragover="allowDrop(event)" ondrop="handleHavuzDrop(event, 'done')">
+                        <h4>✅ Tamamlandı</h4>
+                        <ul id="todo-liste-done" class="kanban-list"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../shared/common.js" data-main="../todo/todo.js"></script>
+</body>
+</html>

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logbook - Kontrol Paneli</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="shared/style.css">
+    <link rel="icon" type="image/png" href="icons/icon48.png">
+</head>
+<body class="page-dashboard">
+
+    <div class="nav-bar">
+        <a href="index.html" class="nav-brand">Logbook</a>
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <div class="tab-buttons">
+                <a id="btn-pano-sekme" class="tab-btn" href="pano/pano.html">Pano</a>
+                <a id="btn-todo-sekme" class="tab-btn" href="todo/todo.html">Yapılacaklar</a>
+                <a id="btn-ajanda-sekme" class="tab-btn" href="ajanda/ajanda.html">Ajanda / Takvim</a>
+                <a id="btn-defter-sekme" class="tab-btn" href="defter/defter.html">Defter</a>
+                <div class="nav-dropdown-container">
+                    <a id="btn-finans-sekme" class="tab-btn" href="finans/finans.html">Finans & Zaman Analizi</a>
+                    <div class="nav-dropdown-content">
+                        <a href="finans/finans.html#butce">💰 Bütçe & Harcamalar</a>
+                        <a href="finans/finans.html#doviz">💱 Canlı Döviz Masası</a>
+                    </div>
+                </div>
+                <a id="btn-stickynote-sekme" class="tab-btn" href="uzanti/desktop_note.html">Hızlı Not</a>
+            </div>
+            <button id="dark-mode-toggle" class="dark-mode-btn" title="Temayı Değiştir">🌙</button>
+        </div>
+    </div>
+
+    <div class="dashboard-container">
+        <div class="dashboard-hero">
+            <h1 id="dashboard-greeting">Yükleniyor...</h1>
+            <div id="dashboard-clock" class="dashboard-clock">00:00:00</div>
+        </div>
+        
+        <div class="dashboard-grid">
+            <a href="pano/pano.html" class="dashboard-card card-pano">
+                <div>
+                    <div class="card-icon">📌</div>
+                    <h3 class="card-title">Pano (Post-it)</h3>
+                    <p class="card-desc">Fikirlerinizi, hızlı notlarınızı renkli yapışkan kağıtlar halinde panoya iliştirin. Notları sürükleyebilir ve istediğiniz gibi düzenleyebilirsiniz.</p>
+                </div>
+                <span id="stat-pano" class="card-stat">Yükleniyor...</span>
+            </a>
+            
+            <a href="todo/todo.html" class="dashboard-card card-todo">
+                <div>
+                    <div class="card-icon">📋</div>
+                    <h3 class="card-title">Yapılacaklar (to-do list)</h3>
+                    <p class="card-desc">Görevlerinizi listelere göre kategorize edin. Yapılacak, Yapılıyor ve Tamamlandı havuzları arasında sürükleyip bırakarak durum takibi yapın.</p>
+                </div>
+                <span id="stat-todo" class="card-stat">Yükleniyor...</span>
+            </a>
+            
+            <a href="ajanda/ajanda.html" class="dashboard-card card-ajanda">
+                <div>
+                    <div class="card-icon">📅</div>
+                    <h3 class="card-title">Ajanda / Takvim</h3>
+                    <p class="card-desc">Günlük planlarınızı yönetin, haftalık ders/çalışma programınızı çıkarın veya aylık takvim üzerine zeki notlar alın.</p>
+                </div>
+                <span id="stat-ajanda" class="card-stat">Yükleniyor...</span>
+            </a>
+            
+            <a href="defter/defter.html" class="dashboard-card card-defter">
+                <div>
+                    <div class="card-icon">✍️</div>
+                    <h3 class="card-title">Hibrit Defter</h3>
+                    <p class="card-desc">Hem klavyeyle yazı yazın, hem de aynı sayfaya çizim yapın. Kılavuz çizgileri değiştirin veya resim ekleyerek çalışmanızı zenginleştirin.</p>
+                </div>
+                <span id="stat-defter" class="card-stat">Yükleniyor...</span>
+            </a>
+            
+            <a href="finans/finans.html" class="dashboard-card card-finans">
+                <div>
+                    <div class="card-icon">📊</div>
+                    <h3 class="card-title">Finans & Zaman Analizi</h3>
+                    <p class="card-desc">Giderlerinizi multi-döviz desteğiyle kaydedin, haftalık/aylık zaman dağılımınızı analiz edin ve Excel raporu oluşturun.</p>
+                </div>
+                <span id="stat-finans" class="card-stat">Yükleniyor...</span>
+            </a>
+        </div>
+
+        <!-- Logbook Kullanım İpuçları Paneli -->
+        <div class="dashboard-info-panel">
+            <div class="dashboard-info-header">
+                <span class="dashboard-info-icon">💡</span>
+                <h2>Logbook Kullanım İpuçları & Kılavuzu</h2>
+                <div class="carousel-dots" id="carousel-dots"></div>
+            </div>
+            
+            <div class="dashboard-info-carousel-container" id="carousel-container">
+                <div class="dashboard-info-item">
+                    <span class="info-item-icon">🔍</span>
+                    <div class="info-item-content">
+                        <h4>Spotlight Arama Paneli</h4>
+                        <p><strong>Command + K</strong> (veya <strong>Ctrl + K</strong>) ile paneli açıp tüm defter sayfaları, panolar, görevler, ajanda planları ve harcamalarda anlık arama yapabilirsiniz.</p>
+                    </div>
+                </div>
+
+                <div class="dashboard-info-item">
+                    <span class="info-item-icon">⚡</span>
+                    <div class="info-item-content">
+                        <h4>Sistem Genelinde Hızlı Not</h4>
+                        <p><strong>Control + Shift + L</strong> kısayolu ile Chrome arkadayken bile Hızlı Not'u açıp yazabilirsiniz. (<code>chrome://extensions/shortcuts</code> sayfasından bir kez etkinleştirilmesi gerekir).</p>
+                    </div>
+                </div>
+
+                <div class="dashboard-info-item">
+                    <span class="info-item-icon">🔄</span>
+                    <div class="info-item-content">
+                        <h4>Otomatik Pano Senkronizasyonu</h4>
+                        <p>Hızlı Not'a yazdıklarınız ve eklediğiniz resimler, Pano'daki eklenti post-it kartına gerçek zamanlı olarak otomatik yansır ve kaydedilir.</p>
+                    </div>
+                </div>
+
+                <div class="dashboard-info-item">
+                    <span class="info-item-icon">⚙️</span>
+                    <div class="info-item-content">
+                        <h4>Dosya URL'lerine İzin Verme</h4>
+                        <p>Senkronizasyonun çalışması için <code>chrome://extensions</code> sayfasında Logbook detaylarına girip <strong>"Dosya URL'lerine erişime izin ver"</strong> ayarını açmalısınız.</p>
+                    </div>
+                </div>
+
+                <div class="dashboard-info-item">
+                    <span class="info-item-icon">✍️</span>
+                    <div class="info-item-content">
+                        <h4>Defter Kısayolu & Kayıt</h4>
+                        <p>Defter sayfasında yazı alanında veya çizim alanında <strong>Cmd + S</strong> (veya <strong>Ctrl + S</strong>) kısayolunu tuşlayarak çizim ve notlarınızı anında kaydedebilirsiniz.</p>
+                    </div>
+                </div>
+
+                <div class="dashboard-info-item">
+                    <span class="info-item-icon">🖼️</span>
+                    <div class="info-item-content">
+                        <h4>Sürükle-Bırak Resim Ekleme</h4>
+                        <p>Defter sayfasına veya Hızlı Not alanına bilgisayarınızdan herhangi bir görseli sürükleyip bırakarak (Drag & Drop) ya da panodan yapıştırarak (Ctrl+V) ekleyebilirsiniz.</p>
+                    </div>
+                </div>
+
+                <div class="dashboard-info-item">
+                    <span class="info-item-icon">🎙️</span>
+                    <div class="info-item-content">
+                        <h4>Sesle Not Yazma</h4>
+                        <p>Hızlı Not popup'ındaki mikrofon (🎙️) simgesine tıklayarak söylediklerinizi otomatik olarak yazıya dökebilirsiniz.</p>
+                    </div>
+                </div>
+
+                <div class="dashboard-info-item">
+                    <span class="info-item-icon">📅</span>
+                    <div class="info-item-content">
+                        <h4>Esnek Saat & Plan Düzenleme</h4>
+                        <p>Ajandada dakika hassasiyetinde saatler girebilir, kayıtlı planları "Düzenle" butonuyla güncelleyebilirsiniz. Dakikalı planlar haftalık tabloda en yakın saate otomatik yerleşir.</p>
+                    </div>
+                </div>
+
+                <div class="dashboard-info-item">
+                    <span class="info-item-icon">📐</span>
+                    <div class="info-item-content">
+                        <h4>Pano Kart Boyutu Özelleştirme</h4>
+                        <p>Pano üzerindeki post-it kartlarının sağ alt köşesinden çekerek genişlik ve yüksekliklerini değiştirebilirsiniz. Değişiklikler otomatik olarak kaydedilir.</p>
+                    </div>
+                </div>
+
+                <div class="dashboard-info-item">
+                    <span class="info-item-icon">🔍</span>
+                    <div class="info-item-content">
+                        <h4>Görsel Boyutu ve Değişimi</h4>
+                        <p>Post-it veya Pano kartındaki görselin üzerine sağ tıklayarak resmi mini önizleme veya büyük görünüm yapabilir, çift tıklayarak resmi silebilirsiniz.</p>
+                    </div>
+                </div>
+
+                <div class="dashboard-info-item">
+                    <span class="info-item-icon">💱</span>
+                    <div class="info-item-content">
+                        <h4>Finans Döviz Çevirici</h4>
+                        <p>Harcamalarınızı farklı döviz cinslerinde kaydettiğinizde, anlık döviz kurları üzerinden otomatik olarak TL karşılığı hesaplanır.</p>
+                    </div>
+                </div>
+
+                <div class="dashboard-info-item">
+                    <span class="info-item-icon">🔁</span>
+                    <div class="info-item-content">
+                        <h4>Tekrarlayan Otomatik Giderler</h4>
+                        <p>Finans bölümünde aylık harcama şablonları oluşturarak kira, fatura gibi düzenli giderlerin her ayın başında otomatik olarak bütçenize işlenmesini sağlayabilirsiniz.</p>
+                    </div>
+                </div>
+
+                <div class="dashboard-info-item">
+                    <span class="info-item-icon">📏</span>
+                    <div class="info-item-content">
+                        <h4>Defter Kılavuz Çizgileri</h4>
+                        <p>Defter çizim alanındaki "Kılavuz Çizgi" butonu ile kareli, çizgili, noktalı veya boş sayfa şablonları arasında geçiş yapabilirsiniz.</p>
+                    </div>
+                </div>
+
+                <div class="dashboard-info-item">
+                    <span class="info-item-icon">📓</span>
+                    <div class="info-item-content">
+                        <h4>Post-it'i Deftere Aktarma</h4>
+                        <p>Hızlı Not eklentisinde veya Pano üzerindeki bir post-it kartını düzenlerken <strong>Cmd + S</strong> (veya <strong>Ctrl + S</strong>) kısayoluna basarak notunuzu anında Defter'e yeni bir sayfa olarak aktarabilirsiniz.</p>
+                    </div>
+                </div>
+
+                <div class="dashboard-info-item">
+                    <span class="info-item-icon">📥</span>
+                    <div class="info-item-content">
+                        <h4>Gelişmiş Word'e Aktarma</h4>
+                        <p>Defter araç çubuğundaki <strong>Word'e Aktar</strong> butonuyla defterinizi indirmeden önce sayfa kapsamını (tümü, mevcut sayfa veya sayfa aralığı) belirleyebilir ve boş sayfaları filtreleyebilirsiniz.</p>
+                    </div>
+                </div>
+
+                <div class="dashboard-info-item">
+                    <span class="info-item-icon">💾</span>
+                    <div class="info-item-content">
+                        <h4>Veri Yedekleme & Geri Yükleme</h4>
+                        <p>Navigasyon barındaki butonla tüm Logbook verilerinizi tek tıkla şifreli <strong>.json</strong> dosyası olarak yedekleyebilir veya geri yükleyebilirsiniz.</p>
+                    </div>
+                </div>
+
+                <div class="dashboard-info-item">
+                    <span class="info-item-icon">🔔</span>
+                    <div class="info-item-content">
+                        <h4>Kanban Görev Hatırlatıcıları</h4>
+                        <p>Görev kartlarına son teslim tarihi belirleyebilir ve saati geldiğinde anlık masaüstü bildirimleri alabilirsiniz.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="shared/common.js" data-main="shared/home.js"></script>
+</body>
+</html>
